@@ -1,0 +1,213 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Arrow from '../components/Arrow.astro';
+
+const bookingLink = 'mailto:mollie@molliewilliamsdrph.com?subject=AI%20coaching%20and%20training%20inquiry';
+---
+
+<BaseLayout title="AI Coaching and Training | Mollie Williams, DrPH" description="Practical one-on-one AI coaching and custom training for businesses and nonprofits using Claude, ChatGPT, agents, and recurring tasks.">
+  <Header active="coaching" />
+  <main>
+    <section class="coaching-hero">
+      <div class="hero-copy">
+        <p class="eyebrow">AI coaching and training</p>
+        <h1>Put AI to work on the work you already do.</h1>
+        <p class="hero-lead">I help people and organizations use Claude and ChatGPT for real tasks, then set up agents and recurring tasks so the routine work keeps getting done without them.</p>
+        <div class="button-row">
+          <a class="button button-dark" href={bookingLink}>Book a session <Arrow /></a>
+          <a class="button" href="#services">Explore services <Arrow /></a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <img src="/images/hero-buildings.webp" alt="A path through modern buildings, representing practical progress with AI" />
+        <p>One-on-one coaching for individuals.<br />Custom training for teams.</p>
+      </div>
+    </section>
+
+    <section class="outcomes" aria-label="Coaching outcomes">
+      <div><span>01</span><strong>Get better results</strong><p>Turn prompts into useful drafts, summaries, and analysis.</p></div>
+      <div><span>02</span><strong>Hand off the steps</strong><p>Build an agent that completes a multistep job for you.</p></div>
+      <div><span>03</span><strong>Keep work moving</strong><p>Schedule recurring tasks that run daily or weekly.</p></div>
+    </section>
+
+    <section class="services" id="services">
+      <div class="section-heading">
+        <p class="eyebrow">Ways to work together</p>
+        <h2>Learn by building something useful.</h2>
+        <p>Every session starts with your real work. The goal is not just to understand AI, but to leave with a working system you can keep using.</p>
+      </div>
+
+      <article class="service-card coaching-card">
+        <div class="service-intro">
+          <p class="service-number">01 / Individual</p>
+          <h2>One-on-one coaching</h2>
+          <p>Coaching sessions are built around your work, not a generic curriculum. Bring a task that eats your week, and we will work on it together until it runs.</p>
+          <p>Sessions work for beginners and for people who already use AI but want more from it.</p>
+        </div>
+        <div class="service-details">
+          <h3>What you will learn</h3>
+          <ul class="learning-list">
+            <li><strong>Use Claude or ChatGPT well.</strong><span>Write prompts that return usable drafts, summaries, and analysis instead of generic answers.</span></li>
+            <li><strong>Set up an agent.</strong><span>Hand off a multistep job, such as researching a topic or triaging your inbox, and get the finished work back.</span></li>
+            <li><strong>Build a recurring task.</strong><span>Schedule work that runs daily or weekly on its own, like a Monday status report or a Friday summary of your week.</span></li>
+          </ul>
+          <div class="pricing" aria-label="Coaching session prices">
+            <div><span>60 minutes</span><strong>$75</strong></div>
+            <div class="featured-price"><span>90 minutes <small>Best value</small></span><strong>$100</strong><p>Enough time to build an agent or recurring task from start to finish.</p></div>
+          </div>
+          <a class="button button-dark" href={bookingLink}>Book one-on-one coaching <Arrow /></a>
+        </div>
+      </article>
+
+      <article class="service-card training-card">
+        <div class="service-intro">
+          <p class="service-number">02 / Organizations</p>
+          <h2>Custom training for businesses and nonprofits</h2>
+          <p>Most teams have a few people using AI well and many who are not sure where to start. I design training around your organization’s actual work, so staff leave with skills they can use the next morning.</p>
+        </div>
+        <div class="service-details">
+          <h3>Training can cover</h3>
+          <ul class="training-list">
+            <li><strong>Basics</strong> for staff who are new to Claude or ChatGPT.</li>
+            <li><strong>Practical uses for your field,</strong> such as grant writing, reporting, research, communications, and meeting follow-up.</li>
+            <li><strong>Agents and recurring tasks</strong> that take routine work off your team’s plate.</li>
+            <li><strong>Good practices for using AI responsibly</strong> with your organization’s data.</li>
+          </ul>
+          <p>Every engagement starts with a conversation about your goals, your team, and the tools you already use.</p>
+          <a class="button light-button" href={bookingLink}>Email me for a quote <Arrow /></a>
+        </div>
+      </article>
+    </section>
+
+    <section class="about-coach">
+      <div class="portrait"><img src="/images/mollie-headshot.jpeg" alt="Mollie Williams, DrPH" /></div>
+      <div class="about-copy">
+        <p class="eyebrow">About me</p>
+        <h2>Practical guidance, grounded in real work.</h2>
+        <p>I am Mollie Williams, DrPH. I have spent my career in nonprofits and public health as an executive, a professional grant writer, and a lecturer at Harvard Medical School, where I taught social medicine, health equity, and global health.</p>
+        <p>I came to AI the way most busy people do: I needed more hours in the week. I now use Claude and ChatGPT every day for research, writing, analysis, and the administrative work that used to fill my evenings. I teach the way I learned, by starting with real work and building from there.</p>
+        <p class="credentials">DrPH, Health Policy and Management — UNC Chapel Hill<br />MPH — University of Michigan</p>
+      </div>
+    </section>
+
+    <section class="process">
+      <div class="section-heading">
+        <p class="eyebrow">How it works</p>
+        <h2>From an email to something working.</h2>
+      </div>
+      <ol>
+        <li><span>1</span><div><h3>Email me</h3><p>Send a sentence or two about what you want to get done.</p></div></li>
+        <li><span>2</span><div><h3>We schedule</h3><p>Choose a session time that works for you.</p></div></li>
+        <li><span>3</span><div><h3>You leave with it working</h3><p>Finish with a usable result, not just a page of notes.</p></div></li>
+      </ol>
+    </section>
+
+    <section class="faq">
+      <div class="faq-heading"><p class="eyebrow">Questions</p><h2>Good to know.</h2></div>
+      <div class="faq-list">
+        <details open><summary>Do I need any technical background?</summary><p>No. If you can write an email, you can learn this. I explain things in plain language and go at your pace.</p></details>
+        <details><summary>Which tool should I use, Claude or ChatGPT?</summary><p>Both are good. I will help you choose based on your work and what you already pay for, and the skills carry over between them.</p></details>
+        <details><summary>What should I bring to a session?</summary><p>A real task you want help with, and a laptop with Claude or ChatGPT open. A paid account helps for agents and recurring tasks, but it is not required to start.</p></details>
+        <details><summary>Do you work with teams outside of nonprofits?</summary><p>Yes. I work with businesses, nonprofits, and foundations of any size.</p></details>
+      </div>
+    </section>
+
+    <section class="coaching-cta">
+      <p class="eyebrow">Ready to start</p>
+      <h2>Bring the work that keeps landing back on your desk.</h2>
+      <p>Email me to book a session or ask about training for your team.</p>
+      <a class="email-link" href={bookingLink}>mollie@molliewilliamsdrph.com <Arrow /></a>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .coaching-hero { display: grid; grid-template-columns: 1.08fr .92fr; min-height: calc(100svh - 72px); }
+  .hero-copy { display: flex; flex-direction: column; justify-content: center; padding: clamp(4rem, 7vw, 7.5rem) clamp(1.5rem, 6vw, 7rem); }
+  .hero-copy h1 { max-width: 52rem; }
+  .hero-lead { max-width: 47rem; margin: 2rem 0; font-size: clamp(1.05rem, 1.45vw, 1.3rem); }
+  .hero-visual { position: relative; min-height: 38rem; overflow: hidden; background: var(--teal); }
+  .hero-visual img { width: 100%; height: 100%; object-fit: cover; }
+  .hero-visual p { position: absolute; right: 0; bottom: 0; left: 0; margin: 0; padding: 1.4rem 2rem; background: rgb(23 23 22 / 88%); color: white; font-size: .9rem; line-height: 1.6; }
+  .outcomes { display: grid; grid-template-columns: repeat(3, 1fr); border-block: 1px solid var(--line); }
+  .outcomes > div { padding: 2rem clamp(1.5rem, 3vw, 3.5rem); border-right: 1px solid var(--line); }
+  .outcomes > div:last-child { border-right: 0; }
+  .outcomes span { display: block; margin-bottom: 1rem; color: var(--orange); font-size: .72rem; font-weight: 600; }
+  .outcomes strong { font-family: 'DM Serif Display', Georgia, serif; font-size: 1.55rem; font-weight: 400; }
+  .outcomes p { margin: .55rem 0 0; font-size: .9rem; }
+  .services { padding: clamp(5rem, 9vw, 9rem) clamp(1.25rem, 7vw, 8rem); }
+  .services > .section-heading { max-width: 62rem; }
+  .service-card { display: grid; grid-template-columns: .88fr 1.12fr; margin-top: 2rem; border: 1px solid var(--line); }
+  .service-intro, .service-details { padding: clamp(2.25rem, 5vw, 5rem); }
+  .service-intro { border-right: 1px solid var(--line); }
+  .service-intro h2 { margin-bottom: 1.8rem; font-size: clamp(2.5rem, 4.7vw, 5rem); }
+  .service-intro p:not(.service-number) { max-width: 35rem; font-size: 1.04rem; }
+  .service-number { margin: 0 0 3rem; color: var(--orange); font-size: .72rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
+  .service-details h3 { margin-bottom: 2rem; }
+  .learning-list, .training-list { margin: 0 0 2.5rem; padding: 0; list-style: none; }
+  .learning-list li { display: grid; grid-template-columns: minmax(10rem, .7fr) 1.3fr; gap: 1.5rem; padding: 1.25rem 0; border-top: 1px solid var(--line); }
+  .learning-list li:last-child { border-bottom: 1px solid var(--line); }
+  .learning-list span { color: var(--muted); line-height: 1.55; }
+  .pricing { display: grid; grid-template-columns: .8fr 1.2fr; margin: 2.5rem 0; border: 1px solid var(--line); }
+  .pricing > div { display: flex; min-height: 9.5rem; flex-direction: column; justify-content: space-between; padding: 1.5rem; }
+  .pricing > div:first-child { border-right: 1px solid var(--line); }
+  .pricing strong { font-family: 'DM Serif Display', Georgia, serif; font-size: 2.7rem; font-weight: 400; }
+  .pricing small { display: inline-block; margin-left: .4rem; padding: .25rem .45rem; border-radius: 999px; background: var(--orange); color: white; font-size: .62rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+  .pricing p { margin: .65rem 0 0; font-size: .78rem; }
+  .training-card { background: var(--ink); color: white; }
+  .training-card .service-intro { border-color: #44443f; }
+  .training-card p, .training-card li { color: #d7d5cf; }
+  .training-card .service-number { color: #ff8a67; }
+  .training-list li { padding: 1.15rem 0 1.15rem 1.75rem; border-top: 1px solid #44443f; line-height: 1.6; }
+  .training-list li::before { float: left; margin-left: -1.75rem; color: #ff8a67; content: '→'; }
+  .training-list li:last-child { border-bottom: 1px solid #44443f; }
+  .light-button { border-color: white; color: white; }
+  .about-coach { display: grid; grid-template-columns: .85fr 1.15fr; background: var(--soft); }
+  .portrait { max-height: 54rem; overflow: hidden; }
+  .portrait img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+  .about-copy { display: flex; flex-direction: column; justify-content: center; padding: clamp(4rem, 8vw, 8rem); }
+  .about-copy h2 { max-width: 42rem; margin-bottom: 2rem; }
+  .about-copy > p:not(.eyebrow) { max-width: 45rem; }
+  .credentials { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--line); color: var(--ink); font-size: .86rem; font-weight: 600; line-height: 1.9; }
+  .process { padding: clamp(5rem, 9vw, 9rem) clamp(1.25rem, 8vw, 9rem); }
+  .process ol { display: grid; grid-template-columns: repeat(3, 1fr); margin: 0; padding: 0; border: 1px solid var(--line); list-style: none; }
+  .process li { display: flex; gap: 1.5rem; min-height: 14rem; padding: 2rem; border-right: 1px solid var(--line); }
+  .process li:last-child { border-right: 0; }
+  .process li > span { display: grid; width: 2.4rem; height: 2.4rem; flex: 0 0 auto; place-items: center; border-radius: 50%; background: var(--ink); color: white; font-size: .8rem; }
+  .process h3 { margin: .35rem 0 1rem; }
+  .faq { display: grid; grid-template-columns: .72fr 1.28fr; gap: clamp(3rem, 8vw, 9rem); padding: clamp(5rem, 9vw, 9rem) clamp(1.25rem, 8vw, 9rem); background: var(--soft); }
+  .faq-list { border-top: 1px solid var(--line); }
+  details { border-bottom: 1px solid var(--line); }
+  summary { position: relative; padding: 1.65rem 2.75rem 1.65rem 0; cursor: pointer; font-weight: 600; list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { position: absolute; top: 1.45rem; right: .25rem; font-family: 'DM Serif Display', Georgia, serif; font-size: 1.6rem; content: '+'; }
+  details[open] summary::after { content: '−'; }
+  details p { max-width: 43rem; margin: -.35rem 0 1.75rem; }
+  .coaching-cta { padding: clamp(6rem, 11vw, 11rem) 1.5rem; background: var(--teal); color: white; text-align: center; }
+  .coaching-cta .eyebrow, .coaching-cta p { color: white; }
+  .coaching-cta h2 { max-width: 62rem; margin: 0 auto; }
+  .coaching-cta > p:not(.eyebrow) { margin: 1.5rem auto 2rem; }
+  .email-link { display: inline-flex; align-items: center; gap: .8rem; padding-bottom: .35rem; border-bottom: 1px solid white; font-weight: 600; }
+  @media (max-width: 900px) {
+    .coaching-hero, .service-card, .about-coach, .faq { grid-template-columns: 1fr; }
+    .hero-visual { min-height: 30rem; grid-row: 1; }
+    .outcomes { grid-template-columns: 1fr; }
+    .outcomes > div { border-right: 0; border-bottom: 1px solid var(--line); }
+    .outcomes > div:last-child { border-bottom: 0; }
+    .service-intro { border-right: 0; border-bottom: 1px solid var(--line); }
+    .training-card .service-intro { border-color: #44443f; }
+    .portrait { max-height: 42rem; }
+    .process ol { grid-template-columns: 1fr; }
+    .process li { min-height: 0; border-right: 0; border-bottom: 1px solid var(--line); }
+    .process li:last-child { border-bottom: 0; }
+  }
+  @media (max-width: 560px) {
+    .learning-list li, .pricing { grid-template-columns: 1fr; }
+    .pricing > div:first-child { border-right: 0; border-bottom: 1px solid var(--line); }
+    .service-intro, .service-details { padding: 2rem 1.35rem; }
+    .email-link { font-size: .88rem; }
+  }
+</style>
