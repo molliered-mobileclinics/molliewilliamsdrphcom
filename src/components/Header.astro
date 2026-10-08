@@ -10,6 +10,7 @@ const { active = '' } = Astro.props;
   <nav id="site-nav" aria-label="Primary navigation">
     <a class:list={{ active: active === 'home' }} href="/">Home</a>
     <a class:list={{ active: active === 'assess' }} href="/assess">Assessment</a>
+    <a class:list={{ active: active === 'coaching' }} href="/coaching">Coaching</a>
     <a class:list={{ active: active === 'about' }} href="/about">About</a>
     <a href="https://molliewilliamsdrph.substack.com/" target="_blank" rel="noreferrer">Newsletter</a>
     <a class="button button-dark button-small" href="/assess">Start assessment</a>
