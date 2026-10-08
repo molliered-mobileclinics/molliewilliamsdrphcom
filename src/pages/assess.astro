@@ -104,7 +104,9 @@ import { roleGroups, taskNames, taskDescriptions, defaultMixes } from '../data/a
   </script>
 </BaseLayout>
 
-<style>
+<!-- The task editor and results are rendered by client-side JavaScript, so these
+     selectors must remain global instead of receiving Astro's scoped attribute. -->
+<style is:global>
   .assessment-shell { min-height: 70vh; }
   .steps { display: flex; gap: 2rem; margin: 0; padding: 12px clamp(1rem, 4vw, 4rem); border-bottom: 1px solid var(--line); list-style: none; color: #8b8984; font-size: .82rem; font-weight: 600; }
   .steps li { display: flex; align-items: center; gap: .55rem; }
