@@ -35,7 +35,7 @@ import Arrow from '../components/Arrow.astro';
           <img src="/images/hero-buildings.webp" alt="Colorful modern buildings" />
           <div class="feature-copy"><h3>Free Career Assessment and Plan</h3><p>A free, confidential tool that maps how AI may change your day-to-day work. Choose from more than 20 roles, customize your task mix, and build a plan to learn and grow.</p><a class="text-link" href="/assess">Start the assessment <Arrow /></a></div>
         </article>
-        <article class="feature-card">
+        <article class="feature-card author-card">
           <img src="/images/mollie-headshot.jpeg" alt="Mollie Williams, DrPH" />
           <div class="feature-copy"><h3>About the author</h3><p>Learn about the public health leader behind this project, and why understanding AI’s impact matters for the workforce.</p><a class="text-link" href="/about">Meet Mollie <Arrow /></a></div>
         </article>
@@ -58,5 +58,6 @@ import Arrow from '../components/Arrow.astro';
 
 <style>
   .home-hero .image-panel img { object-position: center; }
+  .author-card img { height: 17rem; object-position: center 12%; }
   @media (max-width: 860px) { .home-hero .image-panel { min-height: 62svh; } }
 </style>
