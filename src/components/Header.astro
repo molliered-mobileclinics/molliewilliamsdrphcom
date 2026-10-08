@@ -1,0 +1,27 @@
+---
+const { active = '' } = Astro.props;
+---
+
+<header class="site-header">
+  <a class="wordmark" href="/">AI IN PUBLIC HEALTH</a>
+  <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav">
+    <span></span><span></span><span></span><span class="sr-only">Menu</span>
+  </button>
+  <nav id="site-nav" aria-label="Primary navigation">
+    <a class:list={{ active: active === 'home' }} href="/">Home</a>
+    <a class:list={{ active: active === 'assess' }} href="/assess">Assessment</a>
+    <a class:list={{ active: active === 'about' }} href="/about">About</a>
+    <a href="https://molliewilliamsdrph.substack.com/" target="_blank" rel="noreferrer">Newsletter</a>
+    <a class="button button-dark button-small" href="/assess">Start assessment</a>
+  </nav>
+</header>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>('.menu-button');
+  const nav = document.querySelector<HTMLElement>('#site-nav');
+  button?.addEventListener('click', () => {
+    const open = button.getAttribute('aria-expanded') === 'true';
+    button.setAttribute('aria-expanded', String(!open));
+    nav?.classList.toggle('open', !open);
+  });
+</script>

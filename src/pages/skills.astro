@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import UtilityHeader from '../components/UtilityHeader.astro';
+---
+
+<BaseLayout title="AI Skill Builder | AI in Public Health" description="Create a practical AI learning plan tailored to your public health role.">
+  <UtilityHeader label="SKILL BUILDER" backHref="/assess" backText="Back to assessment" image="/images/hero-city.webp" imageAlt="Colorful painted cityscape" />
+  <main class="builder">
+    <section id="builder-form" class="inner">
+      <h1>Build your skill plan</h1>
+      <p>Tell us a bit more about yourself so we can create a personalized development plan based on your assessment results.</p>
+
+      <fieldset><legend>Career stage</legend><div class="choice-grid stage-grid">
+        <button type="button" data-choice="stage" data-value="Student / Early career">Student / Early career <small>0–2 years</small></button>
+        <button type="button" data-choice="stage" data-value="Emerging professional">Emerging professional <small>3–5 years</small></button>
+        <button type="button" data-choice="stage" data-value="Mid-career">Mid-career <small>6–15 years</small></button>
+        <button type="button" data-choice="stage" data-value="Senior / Executive">Senior / Executive <small>15+ years</small></button>
+        <button type="button" data-choice="stage" data-value="Career changer / Re-entering">Career changer / Re-entering</button>
+      </div></fieldset>
+
+      <fieldset><legend>How confident are you using AI tools?</legend><div class="choice-grid">
+        <button type="button" data-choice="confidence" data-value="Not confident">Not confident <small>I rarely use AI tools</small></button>
+        <button type="button" data-choice="confidence" data-value="Slightly confident">Slightly confident <small>I’ve tried them a few times</small></button>
+        <button type="button" data-choice="confidence" data-value="Somewhat confident">Somewhat confident <small>I use them occasionally</small></button>
+        <button type="button" data-choice="confidence" data-value="Confident">Confident <small>I use them regularly</small></button>
+        <button type="button" data-choice="confidence" data-value="Very confident">Very confident <small>I use them extensively</small></button>
+      </div></fieldset>
+
+      <fieldset><legend>How much time can you dedicate to skill development?</legend><div class="choice-grid time-grid">
+        <button type="button" data-choice="time" data-value="15–30 minutes">15–30 minutes/week</button>
+        <button type="button" data-choice="time" data-value="1–2 hours">1–2 hours/week</button>
+        <button type="button" data-choice="time" data-value="3–5 hours">3–5 hours/week</button>
+        <button type="button" data-choice="time" data-value="5+ hours">5+ hours/week</button>
+      </div></fieldset>
+
+      <label class="goal"><span>What’s your primary goal? <small>(optional)</small></span><textarea id="goal" rows="4" placeholder="For example: use AI to summarize evidence more efficiently…"></textarea></label>
+      <button class="button button-dark generate" id="generate" type="button" disabled>Generate my skill plan →</button>
+    </section>
+
+    <section id="plan" class="inner" hidden>
+      <p class="eyebrow">Your personalized plan</p>
+      <h1>A practical path to AI fluency</h1>
+      <p id="plan-intro" class="plan-intro"></p>
+      <div class="plan-meta"><span id="meta-role"></span><span id="meta-stage"></span><span id="meta-time"></span></div>
+      <div class="plan-grid">
+        <article><span>01</span><h2>Build a safe foundation</h2><p>Learn what generative AI can and cannot do, then establish a simple checklist for privacy, bias, verification, and appropriate use in your work.</p><ul><li>Choose one approved AI tool</li><li>Practice removing sensitive information</li><li>Verify every output against a trusted source</li></ul></article>
+        <article><span>02</span><h2>Practice on a real workflow</h2><p id="workflow-copy">Select one repetitive, low-risk task and redesign it with AI as a first-draft partner—not a final decision-maker.</p><ul><li>Write a reusable prompt</li><li>Compare time and quality</li><li>Document where human judgment mattered</li></ul></article>
+        <article><span>03</span><h2>Share and scale</h2><p>Turn what works into a small, responsible practice others can understand. Keep measuring quality, equity, and real-world usefulness.</p><ul><li>Create a one-page playbook</li><li>Invite peer feedback</li><li>Revisit the workflow monthly</li></ul></article>
+      </div>
+      <aside class="weekly"><div><p class="eyebrow">Your weekly rhythm</p><h2 id="weekly-title"></h2></div><p id="weekly-copy"></p></aside>
+      <div class="plan-actions"><button class="back-link" id="edit-plan" type="button">← Edit my answers</button><a class="button button-dark" href="https://molliewilliamsdrph.substack.com/" target="_blank" rel="noreferrer">Keep learning on Substack →</a></div>
+    </section>
+  </main>
+
+  <script>
+    const selections = { stage: '', confidence: '', time: '' };
+    const generate = document.querySelector<HTMLButtonElement>('#generate');
+    const updateButton = () => { if (generate) generate.disabled = !Object.values(selections).every(Boolean); };
+    document.querySelectorAll<HTMLButtonElement>('[data-choice]').forEach(button => button.addEventListener('click', () => {
+      const type = button.dataset.choice as keyof typeof selections;
+      document.querySelectorAll(`[data-choice="${type}"]`).forEach(item => item.classList.remove('selected'));
+      button.classList.add('selected'); selections[type] = button.dataset.value || ''; updateButton();
+    }));
+    generate?.addEventListener('click', () => {
+      const profile = JSON.parse(sessionStorage.getItem('assessmentProfile') || '{}');
+      const role = profile.role || sessionStorage.getItem('assessmentRole') || 'public health professional';
+      const topTask = profile.top?.[0]?.name || 'a recurring research, communication, or planning task';
+      const goal = (document.querySelector<HTMLTextAreaElement>('#goal')?.value || '').trim();
+      document.querySelector('#meta-role')!.textContent = role;
+      document.querySelector('#meta-stage')!.textContent = selections.stage;
+      document.querySelector('#meta-time')!.textContent = `${selections.time} / week`;
+      document.querySelector('#plan-intro')!.textContent = `This plan is designed for a ${selections.stage.toLowerCase()} ${role} who is ${selections.confidence.toLowerCase()} with AI${goal ? ` and wants to ${goal.replace(/[.!]$/, '')}` : ''}. Start small, protect trust, and build evidence from your own work.`;
+      document.querySelector('#workflow-copy')!.textContent = `Begin with ${topTask}. Use AI as a first-draft or thinking partner, while keeping interpretation, context, and accountability with you.`;
+      const weeklyTitle = selections.time === '15–30 minutes' ? 'One focused experiment' : selections.time === '1–2 hours' ? 'Learn, practice, reflect' : 'Build, test, and teach';
+      const weeklyCopy = selections.time === '15–30 minutes' ? 'Spend ten minutes learning one technique, ten minutes applying it, and five minutes noting what helped or failed.' : selections.time === '1–2 hours' ? 'Use one session to learn and practice, then a shorter session to verify the result and capture a reusable prompt.' : 'Reserve time for structured practice, quality checks, documentation, and sharing one useful lesson with a colleague.';
+      document.querySelector('#weekly-title')!.textContent = weeklyTitle;
+      document.querySelector('#weekly-copy')!.textContent = weeklyCopy;
+      document.querySelector<HTMLElement>('#builder-form')!.hidden = true;
+      document.querySelector<HTMLElement>('#plan')!.hidden = false;
+      window.scrollTo({top: document.querySelector('.utility-bar')!.getBoundingClientRect().bottom + window.scrollY, behavior: 'smooth'});
+    });
+    document.querySelector('#edit-plan')?.addEventListener('click', () => { document.querySelector<HTMLElement>('#plan')!.hidden = true; document.querySelector<HTMLElement>('#builder-form')!.hidden = false; });
+  </script>
+</BaseLayout>
+
+<style>
+  .builder { padding: clamp(4rem, 7vw, 7rem) 1.25rem 8rem; }
+  .builder h1 { font-size: clamp(3rem, 5.2vw, 5.3rem); }
+  .builder .inner > p:not(.eyebrow) { max-width: 46rem; margin: 1.25rem 0 3.5rem; font-size: 1.08rem; }
+  fieldset { margin: 0 0 3rem; padding: 0; border: 0; }
+  legend, .goal > span { display: block; width: 100%; margin-bottom: 1rem; font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+  .choice-grid { display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+  .choice-grid button { min-height: 92px; padding: 1rem; border: 0; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: white; text-align: left; cursor: pointer; }
+  .choice-grid button:hover { background: var(--soft); }
+  .choice-grid button.selected { background: var(--ink); color: white; }
+  .choice-grid small { display: block; margin-top: .4rem; color: #85837e; line-height: 1.35; }
+  .choice-grid button.selected small { color: #cbc9c4; }
+  .time-grid { grid-template-columns: repeat(4, 1fr); }
+  .goal textarea { width: 100%; padding: 1rem; resize: vertical; border: 1px solid var(--line); background: white; }
+  .generate { margin-top: 2rem; }
+  .generate:disabled { opacity: .45; cursor: not-allowed; }
+  .plan-intro { max-width: 48rem; font-size: 1.15rem; }
+  .plan-meta { display: flex; flex-wrap: wrap; gap: .5rem; margin: 2rem 0 4rem; }
+  .plan-meta span { padding: .5rem .8rem; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: .78rem; }
+  .plan-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); }
+  .plan-grid article { min-height: 29rem; padding: 2rem; border-right: 1px solid var(--line); }
+  .plan-grid article:last-child { border-right: 0; }
+  .plan-grid article > span { display: block; margin-bottom: 3rem; color: var(--orange); font-size: .78rem; font-weight: 600; }
+  .plan-grid h2 { font-size: 2rem; }
+  .plan-grid ul { padding-left: 1.1rem; color: var(--muted); line-height: 1.8; }
+  .weekly { display: grid; grid-template-columns: .8fr 1.2fr; gap: 4rem; margin: 3rem 0; padding: 3rem; background: var(--ink); color: white; }
+  .weekly .eyebrow, .weekly p { color: #d7d4cd; }
+  .weekly h2 { font-size: 2.4rem; }
+  .plan-actions { display: flex; align-items: center; justify-content: space-between; }
+  @media (max-width: 800px) { .choice-grid, .time-grid { grid-template-columns: 1fr 1fr; } .plan-grid { grid-template-columns: 1fr; } .plan-grid article { min-height: 0; border-right: 0; border-bottom: 1px solid var(--line); } .weekly { grid-template-columns: 1fr; gap: 1rem; } }
+  @media (max-width: 520px) { .choice-grid, .time-grid { grid-template-columns: 1fr; } .plan-actions { align-items: stretch; flex-direction: column; gap: 1.5rem; } }
+</style>

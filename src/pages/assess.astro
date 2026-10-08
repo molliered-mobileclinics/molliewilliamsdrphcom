@@ -1,0 +1,156 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import UtilityHeader from '../components/UtilityHeader.astro';
+import { roleGroups, taskNames, taskDescriptions, defaultMixes } from '../data/assessment';
+---
+
+<BaseLayout title="Personal AI Impact Assessment | AI in Public Health" description="A free, private AI impact assessment designed for public health professionals.">
+  <UtilityHeader label="ASSESSMENT" imageAlt="Illustrated train arriving at a station" />
+  <main class="assessment-shell">
+    <ol class="steps" aria-label="Assessment progress"><li class="active" data-progress="1"><b>1</b> Select role</li><li data-progress="2"><b>2</b> Edit task mix</li><li data-progress="3"><b>3</b> Results preview</li></ol>
+
+    <section class="assessment-step active" id="role-step">
+      <div class="inner">
+        <h1>What role best describes your work?</h1>
+        <p>Select a role to load a default task mix. You’ll customize it in the next step.</p>
+        <label class="search"><span aria-hidden="true">⌕</span><span class="sr-only">Search roles</span><input id="role-search" type="search" placeholder="Search roles…" /></label>
+        <div id="role-groups">
+          {roleGroups.map(group => <section class="role-group" data-group={group.name}><h2>{group.name}</h2><div class="role-grid">{group.roles.map(role => <button type="button" data-role={role} data-group={group.name}>{role}<span>→</span></button>)}</div></section>)}
+        </div>
+        <p class="no-results" hidden>No matching roles found.</p>
+      </div>
+    </section>
+
+    <section class="assessment-step" id="mix-step" hidden>
+      <div class="inner">
+        <div class="step-title"><div><h1>Customize your task mix</h1><p>Adjust to reflect how you actually spend your time. Role: <strong id="selected-role"></strong></p></div><button class="reset" type="button" id="reset-mix">↻ Reset defaults</button></div>
+        <div class="allocation"><span>Total allocated</span><strong><span id="total-allocation">100</span>% <small>/ 100%</small></strong></div>
+        <div id="task-list" class="task-list"></div>
+        <div class="step-actions"><button class="back-link" type="button" id="change-role">← Change role</button><button class="button button-dark" type="button" id="see-results">See results →</button></div>
+      </div>
+    </section>
+
+    <section class="assessment-step" id="results-step" hidden>
+      <div class="inner results-inner">
+        <h1>Your AI impact profile</h1>
+        <p>Based on your customized task mix as a <strong id="results-role"></strong></p>
+        <aside class="disclaimer"><strong>Important:</strong> These are estimated heuristics based on current AI capabilities — not predictions about job loss or employment outcomes. Results reflect task-level impact, not individual outcomes.</aside>
+        <div class="score-grid">
+          <article><span class="score-label">Likely automatable</span><p>Tasks where AI could handle most of the work independently</p><strong id="auto-score">0%</strong></article>
+          <article><span class="score-label">AI-augmented</span><p>Tasks where AI can significantly assist but humans remain essential</p><strong id="augment-score">0%</strong></article>
+          <article><span class="score-label">Deeply human</span><p>Tasks requiring human judgment, relationships, and ethical reasoning</p><strong id="human-score">0%</strong></article>
+        </div>
+        <h2>Top task drivers</h2><div id="top-drivers" class="drivers"></div>
+        <article class="meaning"><h2>What this means</h2><p id="meaning-copy"></p></article>
+        <article class="plan-cta"><h2>Ready to build your skills?</h2><p>Get a personalized AI skill development plan based on your assessment results.</p><a class="button button-dark" href="/skills">Build my skill plan →</a></article>
+        <button class="back-link" id="back-to-mix" type="button">← Back to task editor</button>
+      </div>
+    </section>
+  </main>
+
+  <script is:inline define:vars={{ roleGroups, taskNames, taskDescriptions, defaultMixes }}>
+    const state = { role: '', group: '', mix: [] };
+    const $ = (selector) => document.querySelector(selector);
+    const showStep = (name, progress) => {
+      document.querySelectorAll('.assessment-step').forEach(step => { step.hidden = step.id !== `${name}-step`; step.classList.toggle('active', step.id === `${name}-step`); });
+      document.querySelectorAll('[data-progress]').forEach(item => item.classList.toggle('active', Number(item.dataset.progress) <= progress));
+      window.scrollTo({top: document.querySelector('.steps').offsetTop, behavior: 'smooth'});
+    };
+    const groupMix = () => [...defaultMixes[state.group]];
+    const total = () => state.mix.reduce((sum, value) => sum + value, 0);
+    const updateTotal = () => {
+      $('#total-allocation').textContent = total();
+      $('.allocation').classList.toggle('invalid', total() !== 100);
+      $('#see-results').disabled = total() !== 100;
+    };
+    const renderTasks = () => {
+      $('#task-list').innerHTML = taskNames.map((task, index) => `<article class="task-row"><button class="info" type="button" aria-label="Information about ${task}" data-info="${index}">i</button><div><strong>${task}</strong><p class="task-description" id="description-${index}" hidden>${taskDescriptions[task]}</p></div><div class="stepper"><button type="button" data-minus="${index}" aria-label="Decrease ${task}" ${state.mix[index] === 0 ? 'disabled' : ''}>−</button><strong>${state.mix[index]}%</strong><button type="button" data-plus="${index}" aria-label="Increase ${task}" ${total() >= 100 ? 'disabled' : ''}>+</button></div></article>`).join('');
+      updateTotal();
+    };
+    document.querySelectorAll('[data-role]').forEach(button => button.addEventListener('click', () => {
+      state.role = button.dataset.role; state.group = button.dataset.group; state.mix = groupMix();
+      $('#selected-role').textContent = state.role; renderTasks(); showStep('mix', 2);
+      sessionStorage.setItem('assessmentRole', state.role);
+    }));
+    $('#role-search').addEventListener('input', event => {
+      const query = event.target.value.trim().toLowerCase(); let visible = 0;
+      document.querySelectorAll('.role-group').forEach(section => {
+        let groupVisible = 0; section.querySelectorAll('[data-role]').forEach(button => { const show = button.dataset.role.toLowerCase().includes(query); button.hidden = !show; if (show) groupVisible += 1; });
+        section.hidden = groupVisible === 0; visible += groupVisible;
+      }); $('.no-results').hidden = visible > 0;
+    });
+    $('#task-list').addEventListener('click', event => {
+      const button = event.target.closest('button'); if (!button) return;
+      if (button.dataset.info !== undefined) { const desc = $(`#description-${button.dataset.info}`); desc.hidden = !desc.hidden; return; }
+      const index = Number(button.dataset.minus ?? button.dataset.plus); if (!Number.isInteger(index)) return;
+      if (button.dataset.minus !== undefined && state.mix[index] >= 5) state.mix[index] -= 5;
+      if (button.dataset.plus !== undefined && total() <= 95) state.mix[index] += 5;
+      renderTasks();
+    });
+    $('#reset-mix').addEventListener('click', () => { state.mix = groupMix(); renderTasks(); });
+    $('#change-role').addEventListener('click', () => showStep('role', 1));
+    $('#back-to-mix').addEventListener('click', () => showStep('mix', 2));
+    $('#see-results').addEventListener('click', () => {
+      const weights = taskNames.map((_, i) => ({a: .18 + (i % 5) * .035, g: .44 + (i % 4) * .03}));
+      let auto = 0, augment = 0;
+      state.mix.forEach((value, i) => { auto += value * weights[i].a; augment += value * weights[i].g; });
+      auto = Math.round(auto); augment = Math.round(augment); const human = 100 - auto - augment;
+      $('#results-role').textContent = state.role; $('#auto-score').textContent = `${auto}%`; $('#augment-score').textContent = `${augment}%`; $('#human-score').textContent = `${human}%`;
+      const top = state.mix.map((value, i) => ({value, name: taskNames[i]})).filter(item => item.value > 0).sort((a,b) => b.value-a.value).slice(0,3);
+      $('#top-drivers').innerHTML = top.map(item => `<div><strong>${item.name}</strong><span>${item.value}% of your time</span><em>Augmented</em></div>`).join('');
+      $('#meaning-copy').textContent = augment >= 40 ? 'Your role is in a sweet spot for AI augmentation. Many of your tasks can be enhanced by AI tools, potentially making you more effective and freeing time for higher-order thinking. Learning to work with AI as a partner could significantly boost your impact.' : 'Your work blends opportunities for thoughtful automation with tasks that depend on human judgment, trust, and context. Focus on tools that remove friction while protecting the deeply human parts of your role.';
+      sessionStorage.setItem('assessmentProfile', JSON.stringify({role: state.role, auto, augment, human, top})); showStep('results', 3);
+    });
+  </script>
+</BaseLayout>
+
+<style>
+  .assessment-shell { min-height: 70vh; }
+  .steps { display: flex; gap: 2rem; margin: 0; padding: 12px clamp(1rem, 4vw, 4rem); border-bottom: 1px solid var(--line); list-style: none; color: #8b8984; font-size: .82rem; font-weight: 600; }
+  .steps li { display: flex; align-items: center; gap: .55rem; }
+  .steps li:not(:last-child)::after { content: ''; width: clamp(1.5rem, 5vw, 5rem); height: 1px; margin-left: 1rem; background: var(--line); }
+  .steps b { display: grid; width: 28px; height: 28px; place-items: center; border-radius: 50%; background: var(--soft); font-size: .7rem; }
+  .steps .active { color: var(--ink); }
+  .steps .active b { background: var(--ink); color: white; }
+  .assessment-step { padding: clamp(3rem, 6vw, 5rem) 1.25rem 7rem; }
+  .assessment-step h1 { font-size: clamp(2.6rem, 4.5vw, 4.6rem); }
+  .assessment-step > .inner > p, .step-title p { margin: 1rem 0 2rem; }
+  .search { display: flex; align-items: center; gap: .75rem; margin-bottom: 2.5rem; padding: 0 1rem; border: 1px solid var(--line); background: white; }
+  .search input { width: 100%; height: 58px; border: 0; outline: 0; background: transparent; }
+  .role-group { margin: 2rem 0; }
+  .role-group h2 { margin-bottom: .75rem; font-family: Inter, sans-serif; font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+  .role-grid { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+  .role-grid button { display: flex; min-height: 58px; align-items: center; justify-content: space-between; padding: .9rem 1rem; border: 0; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: white; text-align: left; cursor: pointer; }
+  .role-grid button:hover { background: var(--soft); }
+  .step-title { display: flex; align-items: start; justify-content: space-between; gap: 2rem; }
+  .reset { border: 0; background: none; font-weight: 600; cursor: pointer; }
+  .allocation { display: flex; align-items: center; justify-content: space-between; margin: 1.75rem 0; padding: 1.25rem; border: 1px solid var(--ink); background: var(--soft); }
+  .allocation strong { font-family: 'DM Serif Display', serif; font-size: 1.8rem; }
+  .allocation small { color: var(--muted); font: .8rem Inter, sans-serif; }
+  .allocation.invalid { border-color: var(--orange); }
+  .task-list { border-top: 1px solid var(--line); }
+  .task-row { display: grid; grid-template-columns: 28px 1fr auto; gap: .8rem; align-items: center; min-height: 64px; padding: .7rem 1rem; border: 1px solid var(--line); border-top: 0; background: white; }
+  .task-row .info { width: 20px; height: 20px; padding: 0; border: 1px solid #999; border-radius: 50%; background: none; color: #777; font-size: .7rem; cursor: pointer; }
+  .task-description { margin: .5rem 0; font-size: .82rem; }
+  .stepper { display: flex; align-items: center; gap: .8rem; }
+  .stepper button { width: 36px; height: 36px; border: 1px solid var(--line); background: var(--paper); cursor: pointer; }
+  .stepper button:disabled { color: #ccc; cursor: not-allowed; }
+  .stepper strong { min-width: 42px; text-align: center; }
+  .step-actions { display: flex; align-items: center; justify-content: space-between; margin-top: 2rem; }
+  button.button:disabled { opacity: .45; cursor: not-allowed; }
+  .results-inner > h2 { margin: 3.5rem 0 1.5rem; font-size: 2rem; }
+  .disclaimer { margin: 2rem 0; padding: 1.25rem; border-left: 3px solid var(--gold); background: var(--soft); color: var(--muted); line-height: 1.55; }
+  .score-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); }
+  .score-grid article { position: relative; min-height: 230px; padding: 1.5rem; border-right: 1px solid var(--line); }
+  .score-grid article:last-child { border-right: 0; }
+  .score-grid article > strong { position: absolute; right: 1.5rem; bottom: 1.3rem; font-family: 'DM Serif Display', serif; font-size: 2.8rem; }
+  .score-label { font-weight: 600; }
+  .score-grid p { font-size: .84rem; }
+  .drivers > div { display: grid; grid-template-columns: 1fr auto auto; gap: 1rem; padding: 1rem; border-bottom: 1px solid var(--line); }
+  .drivers span { color: var(--muted); }
+  .drivers em { font-size: .8rem; font-style: normal; }
+  .meaning, .plan-cta { margin: 2.5rem 0; padding: 2rem; border: 1px solid var(--line); }
+  .meaning h2, .plan-cta h2 { font-size: 2rem; }
+  .plan-cta { text-align: center; }
+  @media (max-width: 700px) { .steps { gap: .35rem; overflow-x: auto; } .steps li:not(:last-child)::after { display: none; } .role-grid, .score-grid { grid-template-columns: 1fr; } .score-grid article { border-right: 0; border-bottom: 1px solid var(--line); } .step-title, .step-actions { align-items: stretch; flex-direction: column; } .task-row { grid-template-columns: 24px 1fr; } .stepper { grid-column: 2; } .drivers > div { grid-template-columns: 1fr; } }
+</style>

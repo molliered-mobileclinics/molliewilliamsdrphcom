@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Arrow from '../components/Arrow.astro';
+---
+
+<BaseLayout title="About Mollie Williams, DrPH | AI in Public Health" description="Public health leader, writer, and practitioner exploring AI and the public health workforce.">
+  <Header active="about" />
+  <main>
+    <section class="about-hero">
+      <div class="about-intro"><p class="eyebrow">About</p><h1>Mollie Williams,<br />MPH, DrPH</h1><p>Public health leader, writer, and practitioner exploring the intersection of artificial intelligence and the public health workforce.</p></div>
+      <div class="image-panel"><img src="/images/mollie-headshot.jpeg" alt="Mollie Williams, DrPH" /></div>
+    </section>
+
+    <section class="about-copy">
+      <div><h2>Background</h2></div>
+      <div>
+        <p class="lead">What drives me? The belief that every community deserves the chance to be healthy.</p>
+        <p>That’s why, in addition to serving as Vice President, Evidence and Insights and head of the Policy Center at Mission Mobile Medical, I spend my time writing and speaking about the intersection of AI and public health. We are living through a societal transformation, and I love sharing my knowledge and perspectives about this historical moment through my weekly Substack newsletter.</p>
+        <p>I hold an MPH from the University of Michigan at Ann Arbor and a DrPH from University of North Carolina at Chapel Hill. I’m also co-author of the leading public health textbook, <em>Health Program Planning and Evaluation.</em></p>
+      </div>
+    </section>
+
+    <section class="about-copy tinted">
+      <div><h2>Why I built an AI assessment</h2></div>
+      <div>
+        <p>Most conversations about AI and jobs focus on tech workers or broad economic forecasts. Very few address what AI means for the people doing the day-to-day work of protecting and improving community health.</p>
+        <p>I built this tool to give public health professionals a concrete, personalized starting point — not to predict job loss, but to help people understand their landscape and make informed decisions about skill development and career direction.</p>
+        <p>The assessment draws on major U.S. public health workforce taxonomies and current AI capability research. It is free, private, and continuously improving.</p>
+        <aside>It is currently in test mode—an early alpha. Please share your feedback and suggestions for future tools.</aside>
+      </div>
+    </section>
+
+    <section class="editorial-band compact">
+      <div class="band-copy"><h2>About my co-author, Neil</h2><p>Neil is my co-author on <em>Health Program Planning and Evaluation</em>. He is beautiful, hilarious, and one of the sharpest thinkers I’ve had the privilege of working with.</p><p>And — tomorrow is his birthday. Happy birthday, Neil.</p></div>
+      <div class="image-panel"><img src="/images/hero-city.webp" alt="Colorful city illustration" /></div>
+    </section>
+
+    <section class="cta" id="contact">
+      <h2>Stay connected</h2>
+      <p>Follow along through the AI in Public Health newsletter on Substack — written for practitioners, not technologists.</p>
+      <div class="button-row center">
+        <a class="button button-dark" href="https://molliewilliamsdrph.substack.com/" target="_blank" rel="noreferrer">Subscribe on Substack <Arrow /></a>
+        <a class="button" href="https://molliewilliamsdrph.substack.com/about" target="_blank" rel="noreferrer">Contact me <Arrow /></a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .about-hero { display: grid; grid-template-columns: 1.15fr .85fr; min-height: 39rem; border-bottom: 1px solid var(--line); }
+  .about-intro { display: flex; flex-direction: column; justify-content: center; padding: clamp(4rem, 8vw, 8rem); }
+  .about-intro > p:last-child { max-width: 37rem; margin-top: 2rem; font-size: 1.12rem; }
+  .about-hero img { height: 100%; object-fit: cover; object-position: center 30%; }
+  .about-copy { display: grid; grid-template-columns: .75fr 1.25fr; gap: 7vw; padding: clamp(5rem, 9vw, 9rem) clamp(1.5rem, 9vw, 10rem); }
+  .about-copy h2 { max-width: 25rem; }
+  .about-copy p { max-width: 48rem; margin: 0 0 1.4rem; font-size: 1.05rem; }
+  .about-copy .lead { color: var(--ink); font-family: 'DM Serif Display', Georgia, serif; font-size: 1.8rem; line-height: 1.25; }
+  .tinted { background: var(--soft); }
+  aside { max-width: 48rem; margin-top: 2.5rem; padding: 1.25rem 1.5rem; border-left: 3px solid var(--orange); background: white; color: var(--muted); line-height: 1.6; }
+  .compact { min-height: 30rem; }
+  .center { justify-content: center; }
+  @media (max-width: 760px) { .about-hero, .about-copy { grid-template-columns: 1fr; } .about-hero .image-panel { min-height: 30rem; grid-row: 1; } .about-copy { gap: 2rem; } }
+</style>

@@ -1,0 +1,9 @@
+---
+const { label, backHref = '/', backText = 'Back', image = '/images/hero-assess-train.webp', imageAlt = '' } = Astro.props;
+---
+<div class="utility-hero"><img src={image} alt={imageAlt} /></div>
+<div class="utility-bar">
+  <a class="back-link" href={backHref}>← <span>{backText}</span></a>
+  <span class="utility-label">{label}</span>
+  <a href="https://molliewilliamsdrph.substack.com/" target="_blank" rel="noreferrer">Newsletter</a>
+</div>

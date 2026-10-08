@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Arrow from '../components/Arrow.astro';
+---
+
+<BaseLayout title="AI in Public Health — Free Career Assessment & Resources" description="Practical tools and insights to help public health professionals navigate the AI transition.">
+  <Header active="home" />
+  <main>
+    <section class="split home-hero">
+      <div class="split-copy">
+        <p class="eyebrow">Resources for public health professionals</p>
+        <h1>AI is changing<br />public health.<br />Are you ready?</h1>
+        <p>Explore how artificial intelligence intersects with your work. Take a free, confidential career assessment customized for public health professionals. Build a skill-building plan tailored to your role and level of readiness.</p>
+        <div class="button-row">
+          <a class="button button-dark" href="/assess">Take the free assessment <Arrow /></a>
+          <a class="button" href="https://molliewilliamsdrph.substack.com/" target="_blank" rel="noreferrer">Read the newsletter <Arrow /></a>
+        </div>
+      </div>
+      <div class="image-panel"><img src="/images/hero-explorer.webp" alt="Illustration of a person exploring a city with a beam of light" /></div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading">
+        <h2>What you’ll find here</h2>
+        <p>Practical tools and insights to help public health professionals navigate the AI transition.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <img src="/images/hero-astronaut.webp" alt="Illustration of an astronaut in a colorful landscape" />
+          <div class="feature-copy"><h3>Newsletter</h3><p>A Substack exploring how AI is reshaping public health practice — written for practitioners, not technologists. Concrete analysis, no hype.</p><a class="text-link" href="https://molliewilliamsdrph.substack.com/" target="_blank" rel="noreferrer">Read on Substack <Arrow /></a></div>
+        </article>
+        <article class="feature-card">
+          <img src="/images/hero-buildings.webp" alt="Colorful modern buildings" />
+          <div class="feature-copy"><h3>Free Career Assessment and Plan</h3><p>A free, confidential tool that maps how AI may change your day-to-day work. Choose from more than 20 roles, customize your task mix, and build a plan to learn and grow.</p><a class="text-link" href="/assess">Start the assessment <Arrow /></a></div>
+        </article>
+        <article class="feature-card">
+          <img src="/images/mollie-headshot.jpeg" alt="Mollie Williams, DrPH" />
+          <div class="feature-copy"><h3>About the author</h3><p>Learn about the public health leader behind this project, and why understanding AI’s impact matters for the workforce.</p><a class="text-link" href="/about">Meet Mollie <Arrow /></a></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="editorial-band">
+      <div class="image-panel"><img src="/images/hero-swimmer.webp" alt="Illustration of a swimmer in a pool" /></div>
+      <div class="band-copy"><h2>Go deeper on AI × Public Health</h2><p>A newsletter exploring how artificial intelligence is reshaping public health practice — written for practitioners, not technologists. New essays regularly.</p><a class="button" href="https://molliewilliamsdrph.substack.com/" target="_blank" rel="noreferrer">Subscribe on Substack <Arrow /></a></div>
+    </section>
+
+    <section class="cta">
+      <h2>Ready to see how AI may reshape your work?</h2>
+      <p>Five minutes to understand your landscape. Free, private, and designed for public health professionals.</p>
+      <a class="button button-dark" href="/assess">Start free assessment <Arrow /></a>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .home-hero .image-panel img { object-position: center; }
+  @media (max-width: 860px) { .home-hero .image-panel { min-height: 62svh; } }
+</style>
